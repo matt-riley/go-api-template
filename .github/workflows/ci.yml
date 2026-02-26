@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    uses: matt-riley/matt-riley-ci/.github/workflows/go-ci.yml@v1
+    with:
+      run-race: true
+      run-fmt: true
+
+  lint:
+    uses: matt-riley/matt-riley-ci/.github/workflows/go-lint.yml@v1
+
+  security:
+    uses: matt-riley/matt-riley-ci/.github/workflows/go-security.yml@v1
