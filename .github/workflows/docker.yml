@@ -6,7 +6,10 @@ on:
 
 jobs:
   publish:
-    uses: matt-riley/matt-riley-ci/.github/workflows/docker-ghcr-publish.yml@9461001818caa7d1925854445cf053d0a0aac316 # v2
+    permissions:
+      contents: read
+      packages: write
+    uses: matt-riley/matt-riley-ci/.github/workflows/docker-ghcr-publish.yml@cb986078a5bd4775e5fb05348f3618e41fedf4de # v4
     with:
       tag-name: ${{ github.ref_name }}
     secrets:
