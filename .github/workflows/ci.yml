@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    permissions:
+      contents: read
+    concurrency:
+      group: ${{ github.workflow }}:${{ github.ref }}:test
+      cancel-in-progress: true
+    uses: matt-riley/matt-riley-ci/.github/workflows/go-ci.yml@cb986078a5bd4775e5fb05348f3618e41fedf4de # v4
+    with:
+      run-vet: true
+      run-race: true
+      build-command: go build ./...
+      run-test: true
+      run-fmt: true
+
+  lint:
+    permissions:
+      contents: read
+    concurrency:
+      group: ${{ github.workflow }}:${{ github.ref }}:lint
+      cancel-in-progress: true
+    uses: matt-riley/matt-riley-ci/.github/workflows/go-lint.yml@cb986078a5bd4775e5fb05348f3618e41fedf4de # v4
+
+  security:
+    permissions:
+      contents: read
+    concurrency:
+      group: ${{ github.workflow }}:${{ github.ref }}:security
+      cancel-in-progress: true
+    uses: matt-riley/matt-riley-ci/.github/workflows/go-security.yml@cb986078a5bd4775e5fb05348f3618e41fedf4de # v4
+    with:
+      govulncheck-version: v1.9.0
