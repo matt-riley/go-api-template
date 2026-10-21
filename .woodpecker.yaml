@@ -1,0 +1,26 @@
+# Use a supported Go toolchain; retain the original lint/scanner versions.
+when:
+  - event: push
+    branch: main
+  - event: pull_request
+
+steps:
+  test:
+    image: golang:1.27.3@sha256:957861185dbf29d93668ace41e011d091c6e779953d47f0316ef2cc58e28fe2b
+    commands:
+      - files="$(gofmt -l .)"
+      - 'test -z "$${files}" || { printf "%s\n" "$${files}"; exit 1; }'
+      - go test -race ./...
+      - go vet ./...
+      - go build -o /tmp/server .
+
+  lint:
+    image: golangci/golangci-lint:v2.14.0@sha256:ad862ba6b3798cbe0fd9fd7408d498fd74fbd2623a92406b2fd3898faf0bf98f
+    commands:
+      - golangci-lint run --timeout=5m
+
+  security:
+    image: golang:1.27.3@sha256:957861185dbf29d93668ace41e011d091c6e779953d47f0316ef2cc58e28fe2b
+    commands:
+      - go install golang.org/x/vuln/cmd/govulncheck@v1.1.4
+      - govulncheck ./...
