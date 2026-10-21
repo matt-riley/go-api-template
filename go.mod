@@ -2,4 +2,4 @@ module github.com/matt-riley/go-api-template
 
 go 1.25.13
 
-require github.com/go-chi/chi/v5 v5.3.2
+require github.com/go-chi/chi/v5 v5.4.0
