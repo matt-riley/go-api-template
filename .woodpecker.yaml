@@ -22,5 +22,5 @@ steps:
   security:
     image: golang:1.27.3@sha256:957861185dbf29d93668ace41e011d091c6e779953d47f0316ef2cc58e28fe2b
     commands:
-      - go install golang.org/x/vuln/cmd/govulncheck@v1.1.4
+      - go install golang.org/x/vuln/cmd/govulncheck@v1.9.0
       - govulncheck ./...
